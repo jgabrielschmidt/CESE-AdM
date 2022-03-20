@@ -1,0 +1,91 @@
+Preguntas orientadoras
+1.	Describa brevemente los diferentes perfiles de familias de microprocesadores/microcontroladores de ARM. Explique alguna de sus diferencias características
+
+ARM creo distintos procesadores con diferentes características, distinguiendo 3 conjuntos:
+
+CORTEX-A: Son procesadores basados en la arquitectura ARMv7-A. Se utilizan para manejar aplicaciones complejas. Por ejemplo, sistemas operativos.
+
+CORTEX-R: Procesadores basados en la arquitectura ARMv7-R. Son de alto rendimiento tienen un tiempo de respuesta rápido.
+
+CORTEX-M: Utilizados para aplicaciones de menor escala, ejemplo microcontroladores, donde los requerimientos principales son el bajo costo, bajo consumo, facilidad de 
+uso, entre otras.
+
+Cortex M
+
+1. Describa brevemente las diferencias entre las familias de procesadores Cortex M0, M3 y M4. 
+
+Las diferencias son las siguientes:
+
+-	SysTickTimer: Opcional en M0 y M0+, M3 y M4 lo traen.
+
+Genera interrupciones regularmente. Esto permite hacer cambios de contexto en sistemas operativos, o si no, puede servir para medir el tiempo o como fuente de 
+interrupción para alguna tarea en particular.
+
+-	Memory Protection Unit (MPU): M0 no lo trae, los otros sí.
+
+Sirve para proteger la memoria donde se almacenan datos críticos, por ejemplo, los de un sistema operativo, u otorgar permisos de acceso. Capacidad de superponer las 
+regiones protegidas de memoria y otorgar distintas prioridades.
+
+-	Memory architecture: M0 y M0+ Von Neumann, M3 y M4 Harvard
+
+Arquitecrtura Von Neumann: En esta arquitectura solo hay un BUS para acceder a la memoria de datos y a las instrucciones del programa. Esto ocasiona que sea más lento 
+en la ejecución del programa.
+
+Arquitectura Hardvard: A diferencia de la arquitectura anterior, esta incorpora un BUS más. De esta manera tiene un BUS para acceder a los datos guardados en memoria, 
+y otro BUS para acceder a las instrucciones. Esta arquitectura es más rápida. Se dice que tiene acceso concurrente. La desventaja es que consume más y es más cara que 
+la anterior.
+
+-	ARM architecture: 
+
+M0 y M0+: utilizan la arquitectura ARMv6-M la cual usa las instrucciones Thumb.
+M3 utiliza la arquitectura ARMv7-M y M4 usa la ARMv7E-M donde la E significa “Enhanced” DSP, preparado para el procesamiento digital de señales.
+
+-	Thumb: M0 y M0+ contienen la mayoría de las instrucciones. M3 y M4 contienen todas las instrucciones.
+
+Son un subconjunto de instrucciones de 16 bit del conjunto de instrucciones de ARM. Muchas de estas instrucciones tienen operandos que son implícitos y eso hace que los códigos sean más chicos.
+
+-	Thumb-2: M0 y M0+ contienen algunas de las instrucciones. M3 y M4 contienen todas las instrucciones.
+
+Es una extensión del conjunto de instrucciones de Thumb. Pero incorporan instrucciones adicionales de 32 bit. Incluye manipulación de bits y ejecuciones condicionales.
+
+-	Hardware multiply: M0 y M0+ tienen instrucciones con resultados de 32 bit, también las tienen M3 y M4. Pero M3 y M4 añaden instrucciones de multiplicación en 
+	hardware con resultados de 64 bit.  
+
+
+-	Hardware divide: M0 y M0+ no poseen esta característica. M3 y M4 si con un cociente de 32 bit.
+
+
+-	Saturated math instructions: M0 y M0+ no tienen, M3 tiene algunas y M4 tiene todas.
+
+Estas instrucciones pueden operar sobre un byte, palabra o media palabra. El resultado de la operación satura sobre el mayor valor positivo, o el menor valor negativo. 
+Si saturo, un flag cambiara de estado. Ejemplos de instrucciones son: QADD8, QSUB8.
+
+-	DSP extensions: Solo M4 lo tiene. Los demás (MO, M0+ y M3) no lo tienen.
+
+Al tener esta extensión el procesador CORTEX-M4 combina los requerimientos de un DSP y un microcontrolador, siendo útil para aplicaciones multimedia. Trae instrucciones 
+especializadas que realizan una operación de DSP en un solo ciclo de reloj, mientras que los otros CORTEX requieren varios.
+
+-	Floating-Point Unit: Solo M4 lo tiene como opcional. Los demás (MO, M0+ y M3) no lo tienen.
+
+Es una forma de representar un numero decimal siguiendo el estándar IEEE 754. M4 contiene soporte de hardware para instrucciones sobre datos de punto flotante, 
+lo que optimiza la ejecución de las mismas.
+
+
+2.	¿Por qué se dice que el set de instrucciones Thumb permite mayor densidad de código? Explique.
+
+Las instrucciones de Thumb son de 16 bit y son un subconjunto de las instrucciones de 32 bit de ARM. Las instrucciones de Thumb tienen el mismo efecto sobre el 
+procesador que las instrucciones de ARM, operan como instrucciones de 32 bit con todas sus ventajas solo que el código utilizado para una misma tarea es más pequeño, 
+ocupa menos espacio y por lo tanto se puede codificar más en un mismo espacio de memoria.
+
+
+3.	¿Qué entiende por arquitectura load-store? ¿Qué tipo de instrucciones no posee este tipo de arquitectura? 
+
+El set de instrucciones no opera sobre la memoria directamente. Hay que cargar un dato de la memoria en un registro, aplicarle las instrucciones requeridas por el 
+código, y luego guardarlo en memoria.
+
+
+4.	¿Cómo es el mapa de memoria de la familia?
+
+Tiene un tamaño de 4GB particionada en distintas regiones. Cada región se utiliza principalmente para un uso que puede ser: Código, datos(SRAM), periféricos, 
+componentes internos del procesador y debug. Pero el uso de las regiones de memoria es flexible, el código puede funcionar desde la SRAM. El mapa de memoria es igual 
+para para toda la familia, esto hace que el código sea reutilizable.
