@@ -104,6 +104,17 @@ que se detuvo.
 Como comenté en el párrafo anterior, la arquitectura guarda el contenido de los registros que necesitan cambiar su valor debido al llamado de una función. Cuando la 
 función termina, se restauran los valores de los registros utilizando la información almacenada en la pila.
 
+11. Describa la secuencia de reset del microprocesador. 
+
+Luego del reset y antes de ejecutar el programa, los Cortex-M leen las dos primeras palabras de la memoria. Estas dos primeras palabras son: el valor inicial del MSP 
+y la dirección de la rutina de Reset. Luego el procesador setea el MSP y el contador del programa (PC) con estos valores. 
+
+12. ¿Qué entiende por “core peripherals”? ¿Qué diferencia existe entre estos y el resto de los periféricos?
+
+Los periféricos internos son los que están dentro de la misma unidad del CORTEX. Se encuentran los siguientes: Nested Vectored Interrupt Controller (NVIC), 
+System Control Block (SBC), System timer, Memory Protection Unit (MPU). Estos los brinda ARM junto con el procesador. Los demás periféricos, por ejemplo: ADCs, 
+timers, GPIOS, etc se los agregan los fabricantes de microcontroladores.
+
 14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
 
 Las siglas significan: Cortex Microcontroller Software Interface Standard. Provee bibliotecas standar y funciones para programar CORTEX-M. Hace que sea más fácil la 
