@@ -124,7 +124,15 @@ reusabilidad de código y la portabilidad. Lo provee ARM. Ademas, provee otras v
 + De fácil aprendizaje.
 + Los drivers de los dispositivos pueden utilizarse con diferentes compiladores.
 
-18. ¿Qué funciones cumple la unidad de protección de memoria (MPU)?
+18. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
+
+Es un timer que puede generar la interrupción “SysTick”. Es de 24 bit, decremental y puede utilizar la frecuencia del procesador o de alguna otra referencia. 
+Este timer puede ser utilizado por sistemas operativos en tiempo real en sistemas embebidos, entonces si el sistema operativo fue hecho para un Cortex-M3/M4, el 
+mismo podrá ser usado en otro microcontrolador que tenga el mismo procesador. Por otro lado, si no se utiliza un FreeRTOS, este timer puede ser utilizado para 
+otros propósitos propios de los timers. 
+
+
+19. ¿Qué funciones cumple la unidad de protección de memoria (MPU)?
 
 Es una característica opcional, no todos los Cortex la traen y sirve básicamente para proteger ciertas regiones de memoria a través de distintos modos de acceso, 
 este puede ser privilegiado o no. Es programable y las funciones que cumple pueden ser:
@@ -134,7 +142,7 @@ solo para ciertas aplicaciones.
 + Previene que se pueda acceder a ciertos periféricos que pueden ser sensibles al funcionamiento de un sistema.
 + Define una parte de la memoria como no ejecutable, previniendo inyección de código.
 
-19. ¿Cuántas regiones pueden configurarse como máximo? ¿Qué ocurre en caso de haber solapamientos de las regiones? ¿Qué ocurre con las zonas de memoria no cubiertas 
+20. ¿Cuántas regiones pueden configurarse como máximo? ¿Qué ocurre en caso de haber solapamientos de las regiones? ¿Qué ocurre con las zonas de memoria no cubiertas 
 por las regiones definidas? 
 
 En los Cortex M3 y M4 soportan hasta 8 regiones programables. En caso de que un dato quiera ser guardado en una parte de la memoria protegida compartida por dos 
