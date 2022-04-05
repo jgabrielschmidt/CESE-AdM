@@ -115,6 +115,16 @@ Los periféricos internos son los que están dentro de la misma unidad del CORTE
 System Control Block (SBC), System timer, Memory Protection Unit (MPU). Estos los brinda ARM junto con el procesador. Los demás periféricos, por ejemplo: ADCs, 
 timers, GPIOS, etc se los agregan los fabricantes de microcontroladores.
 
+13. ¿Cómo se implementan las prioridades de las interrupciones? Dé un ejemplo
+
+Las prioridades se asignan con números ascendentes desde la prioridad más alta a la más baja. La prioridad más alta la tiene el Reset y se representa con un número 
+negativo (-3), le sigue la NMI y la ´Hard fault´. Estas últimas no son programables, ya vienen definidas, todas las demás – puede haber hasta 256 – son programables. 
+Los diseñadores limitan la cantidad de interrupciones que un MPU pueda tener cortando la cantidad de bits, esto se hace para bajar el consumo de potencia y la 
+complejidad del NVIC, además de reducir la velocidad. 
+Los bits que se sacan son los menos significativos, esto es así porque favorece la portabilidad, por ejemplo, si se quiere un MPU con 8 niveles de prioridad, solo 
+tendré los 3 bits superiores del Byte de configuración de prioridades. 
+
+
 14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
 
 Las siglas significan: Cortex Microcontroller Software Interface Standard. Provee bibliotecas standar y funciones para programar CORTEX-M. Hace que sea más fácil la 
