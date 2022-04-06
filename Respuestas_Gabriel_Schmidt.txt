@@ -147,6 +147,23 @@ reusabilidad de código y la portabilidad. Lo provee ARM. Ademas, provee otras v
 + De fácil aprendizaje.
 + Los drivers de los dispositivos pueden utilizarse con diferentes compiladores.
 
+15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo
+
+Al ocurrir una interrupción el procesador pasa por cuatro etapas: Acepta el pedido de interrupción, cumple una secuencia de entrada, ejecuta la interrupción y 
+vuelve de la interrupción.
+
+Primera etapa: Se aceptará si el procesador está activo, la interrupción está habilitada y si la interrupción tiene una prioridad más alta que la que pudiera estar 
+ejecutándose.
+
+Segunda etapa: Guarda en el stack varios registros y también la dirección a la que tiene que regresar luego de que termine de ejecutar la interrupción. Accede al 
+vector de interrupción (Dirección) y luego a la instrucción a ejecutarse. Después actualiza varios registros del NVIC y el core.
+
+Tercera etapa: Ejecuta la rutina de interrupción, se utilizará el MSP para operaciones con el Stack y se operará en modo privilegiado.
+
+Cuarta etapa: En los Cortex-M el regreso desde una interrupción se realiza con una dirección especial llamada EXC_RETURN en el program counter. Luego el procesador 
+leerá los registros guardados en la pila para continuar donde estaba antes de la interrupción.
+
+
 18. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
 
 Es un timer que puede generar la interrupción “SysTick”. Es de 24 bit, decremental y puede utilizar la frecuencia del procesador o de alguna otra referencia. 
