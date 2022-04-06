@@ -88,6 +88,19 @@ las excepciones. Esto trae varios beneficios:
 -	El espacio reservado para la pila de cada tarea es el mínimo requerido.
 -	Facilita la creación de un SO para el CORTEX-M.
 
+9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault). 
+
+En los Cortex-M puede haber tres tipos de Reset:
+•	Power on Reset: Resetea todo en el microcontrolador. Inclusive en procesador, periféricos y la sesión de debug.
+•	System reset: resetea el procesador y los periféricos.
+•	Processor reset: solo resetea el procesador. Se mantiene la sesión de debug con el host.
+EL Host puede generar un reset del Sistema o del procesador via un registro en el System Control Block (SCB). 
+
+Non Maskable Interrupt (NMI): Puede ser usada por algún periférico, por ejemplo, un timer o un detector de nivel de voltaje, útil para advertir al procesador de una 
+tensión fuera de rango.
+
+Hardfault: estas interrupciones se disparan cuando el procesador detecta un error. Por ejemplo, una ejecución de una instrucción desconocida o cuando se recibe un 
+mensaje de error al intentar acceder a la memoria. Estas tres interrupciones no se pueden deshabilitar.
 
 10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado a funciones y su retorno?
 
