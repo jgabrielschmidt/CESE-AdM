@@ -164,6 +164,17 @@ Cuarta etapa: En los Cortex-M el regreso desde una interrupción se realiza con 
 leerá los registros guardados en la pila para continuar donde estaba antes de la interrupción.
 
 
+17. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
+
+Tail chaining: Cuando se está ejecutando una interrupción y se produce la interrupción de otro de igual o mayor prioridad, el procesador seguirá con la interrupción 
+actual (en el caso de que las prioridades sean las mismas) o la suspenderá (En el caso de que la nueva interrupción tenga una prioridad mayor), y atenderá la nueva. 
+Cuando termine de ejecutar la interrupción atenderá la que quedó suspendida. Esto evita operar el stack entre la ejecución de cada interrupción, ahorra tiempo y 
+energía. 
+
+Late arrival: Se llama así a una interrupción de más alta prioridad que sucede luego de una interrupción de más baja prioridad, mientras el procesador realiza el 
+“stacking”. Cuando termine de llenar el stack atenderá la interrupción con la prioridad más alta.
+
+
 18. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
 
 Es un timer que puede generar la interrupción “SysTick”. Es de 24 bit, decremental y puede utilizar la frecuencia del procesador o de alguna otra referencia. 
