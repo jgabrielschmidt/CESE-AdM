@@ -88,6 +88,18 @@ las excepciones. Esto trae varios beneficios:
 -	El espacio reservado para la pila de cada tarea es el mínimo requerido.
 -	Facilita la creación de un SO para el CORTEX-M.
 
+8. ¿Qué ventajas presenta el uso de instrucciones de ejecución condicional (IT)? Dé un Ejemplo
+
+La ventaja es que se pueden ejecutar hasta cuatro instrucciones basadas en la condición de ejecución. Ejemplo de una instrucción IF-THEN-ELSE-THEN-THEN:
+
+CMP R0, #1      	// compara R0 con el valor 1
+ITETT NE 		// si no es igual:
+ADDNE R0, R0, R1 	// suma R0 = R0 + R1
+ADDEQ R0, R0, R3 	// si es igual R0 = R0 + R3
+ADDNE R2, R4, #1 	// si no es igual R2 = R4 + 1	
+MOVNE R5, R3		// si no es mueve R3 a R5
+
+
 9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault). 
 
 En los Cortex-M puede haber tres tipos de Reset:
@@ -198,3 +210,31 @@ por las regiones definidas?
 
 En los Cortex M3 y M4 soportan hasta 8 regiones programables. En caso de que un dato quiera ser guardado en una parte de la memoria protegida compartida por dos 
 regiones, este será guardado en la región con el número de identificación de división más alto. 
+
+21. ¿Para qué se suele utilizar la excepción PendSV? ¿Cómo se relaciona su uso con el resto de las excepciones? Dé un ejemplo
+
+Es otro tipo de excepción y es importante para soportar operaciones con sistemas embebidos. Tiene la prioridad más baja entre todas las interrupciones, y su función es 
+la de esperar a que se terminen de ejecutar todas las interrupciones con prioridades más altas, para que dentro de ella el sistema operativo realice el cambio de 
+contexto de una tarea. De este modo el cambio de contexto se retrasará al haber una interrupción ejecutándose antes.
+Esto es así, porque en el caso de que un sistema operativo intente realizar un cambio de contexto mientras se está ejecutando una interrupción – es decir intente 
+ejecutar otra tarea en el modo Thread interrumpiendo la interrupción – se dará una falla de ejecución. Entonces de este modo volverá al modo Thread cuando termine la 
+interrupción de prioridad más baja que es PendSV.
+
+
+
+ISA
+
+1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo
+
+Los sufijos se usan en instrucciones condicionales para realizar una acción dependiendo del resultado. Y luego hay otras con las que se puede actualizar los flags de una operación. Ejemplo de instrucción condicional, NE es Not Equal y EQ es Equal:
+
+CMP R0, #0    // compara R0 con el valor 0
+ITE   NE      // si no es igual a 0
+ADDNE R0, #1  // le sumo 1
+ADDEQ  R0, R1 // si es igual le sumo el registro R1
+
+2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
+
+Actualiza el registro APSR (Application Program Status Register, such as Carry, Overflow, Zero and Negative flags).Ejemplo: 
+
+ADDS r0, 0x70 // [r0] = 0x70  Actualiza el flag si es que hubo overflow o no.

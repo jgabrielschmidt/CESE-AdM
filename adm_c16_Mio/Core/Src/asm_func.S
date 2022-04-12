@@ -7,7 +7,8 @@
 .global asm_sum
 .global asm_zeros
 .global asm_productoEscalar32
-
+.global asm_productoEscalar16
+.global asm_productoEscalar12
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   void asm_svc (void)
@@ -78,13 +79,14 @@
 @
 .thumb_func
     asm_productoEscalar32:
-   .asm_prodEscalar_loop:
-        and r1, [r0], r3
-        add r0, 4
-        add r1, 4
+   .asm_prodEscalar_loop32:
+   		ldr r4, [r0], 4
+        mul r4, r4, r3
+        str r4,[r1], 4
         subs r2, 1	// Cuando llega a cero cambia el flag a 1
-		bne .asm_prodEscalar_loop
+		bne .asm_prodEscalar_loop32
         bx lr
+
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -100,12 +102,12 @@
 @
 .thumb_func
     asm_productoEscalar16:
-   .asm_prodEscalar_loop:
-        and r1, [r0], r3
-        add r0, 2
-        add r1, 2
+   .asm_prodEscalar_loop16:
+   		ldr r4, [r0], 2
+        mul r4, r4, r3
+        str r4,[r1], 2
         subs r2, 1	// Cuando llega a cero cambia el flag a 1
-		bne .asm_prodEscalar_loop
+		bne .asm_prodEscalar_loop16
         bx lr
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -120,15 +122,14 @@
 @ Valor de retorno:
 @   void
 
-@	usat r1,12,r0
-
 .thumb_func
     asm_productoEscalar12:
-   .asm_prodEscalar_loop:
-        and r1, [r0], r3
-        usat r1, 12, r1	// saturo a 12 bit sin signo
-        add r0, 2
-        add r1, 2
+    	mov r5, 0x0FFF
+   .asm_prodEscalar12_loop:
+  		ldr r4, [r0], 2
+        mul r4, r4, r3
+        and r4, r4, r5
+        str r4,[r1], 2
         subs r2, 1	// Cuando llega a cero cambia el flag a 1
-		bne .asm_prodEscalar_loop
+		bne .asm_prodEscalar12_loop
         bx lr

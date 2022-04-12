@@ -145,7 +145,7 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
 
 	for(uint16_t i = 0; i < longitud; i++){
 		if( (vectorOut[i] = vectorIn[i] * escalar) > 4096)
-			vectorOut[i] = 4096;
+			vectorOut[i] = vectorOut[i] & 0x0FFF;
 	}
 }
 /* USER CODE END 0 */
@@ -189,9 +189,66 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+/*
+  uint32_t tiempoInicial, tiempoFinalFuncionC, tiempoFinalFuncionASM,
+  	  	   longitud = 4,
+		   VectorIn32[]={1,2,3,4}, VectorOut32[longitud],
+		   escalar32 = 2;
+*/
+  uint32_t longitud = 4;
+  uint16_t VectorIn16[]={500,1000,2047,2050}, VectorOut16[longitud], escalar16 = 2;
+
   while (1)
   {
-    /* USER CODE END WHILE */
+	  /* Lleno de ceros */
+/*
+	  tiempoInicial = HAL_GetTick();
+	  zeros(VectorIn32, longitud);
+	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
+
+	  tiempoInicial = HAL_GetTick();
+	  asm_zeros(VectorIn32, longitud);
+	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
+
+*/
+
+	  /* Producto por un escalar 32 */
+
+/*
+	  tiempoInicial = HAL_GetTick();
+	  productoEscalar32(VectorIn32, VectorOut32, longitud, escalar);
+	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
+*/
+	  /*
+	  tiempoInicial = HAL_GetTick();
+	  asm_productoEscalar32(VectorIn32, VectorOut32, longitud, escalar);
+	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
+	  VectorOut32;
+	  */
+	  /* Producto por un escalar 16 */
+/*
+	  tiempoInicial = HAL_GetTick();
+	  productoEscalar16(VectorIn16, VectorOut16, longitud, escalar);
+	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
+*/
+//	  tiempoInicial = HAL_GetTick();
+//	  asm_productoEscalar16(VectorIn16, VectorOut16, longitud, escalar16);
+//	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
+
+
+	  /* Producto por un escalar 12 */
+/*
+	  tiempoInicial = HAL_GetTick();
+	  productoEscalar12(VectorIn16, VectorOut16, longitud, escalar);
+	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
+
+	  tiempoInicial = HAL_GetTick();
+*/	  asm_productoEscalar12(VectorIn16, VectorOut16, longitud, escalar16);
+	  VectorOut16;
+/*	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
+*/
+	  /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
