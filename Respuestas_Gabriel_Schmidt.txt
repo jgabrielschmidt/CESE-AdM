@@ -220,13 +220,20 @@ Esto es así, porque en el caso de que un sistema operativo intente realizar un 
 ejecutar otra tarea en el modo Thread interrumpiendo la interrupción – se dará una falla de ejecución. Entonces de este modo volverá al modo Thread cuando termine la 
 interrupción de prioridad más baja que es PendSV.
 
+22. ¿Para qué se suele utilizar la excepción SVC? Explíquelo dentro de un marco de un sistema operativo embebido.
+
+Se utiliza para hacer un sistema embebido más robusto, al ser una excepción permite que las aplicaciones, corriendo en modo no privilegiado, accedan mediante el SO 
+corriendo en modo privilegiado, a datos u otros recursos como periféricos. Además, al ejecutarse inmediatamente después de ser disparada, no agrega un tiempo 
+desconocido hasta la ejecución del SO. También hace que el diseño de las tareas sea más fácil, porque el programador puede abstraerse del hardware utilizado ya que 
+esto lo manejaría el SO.
 
 
 ISA
 
 1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo
 
-Los sufijos se usan en instrucciones condicionales para realizar una acción dependiendo del resultado. Y luego hay otras con las que se puede actualizar los flags de una operación. Ejemplo de instrucción condicional, NE es Not Equal y EQ es Equal:
+Los sufijos se usan en instrucciones condicionales para realizar una acción dependiendo del resultado. Y luego hay otras con las que se puede actualizar los flags de 
+una operación. Ejemplo de instrucción condicional, NE es Not Equal y EQ es Equal:
 
 CMP R0, #0    // compara R0 con el valor 0
 ITE   NE      // si no es igual a 0
