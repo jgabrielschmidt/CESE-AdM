@@ -175,6 +175,12 @@ Tercera etapa: Ejecuta la rutina de interrupción, se utilizará el MSP para ope
 Cuarta etapa: En los Cortex-M el regreso desde una interrupción se realiza con una dirección especial llamada EXC_RETURN en el program counter. Luego el procesador 
 leerá los registros guardados en la pila para continuar donde estaba antes de la interrupción.
 
+16. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante? 
+
+Los Cortex-M4 son los que tienen unidad de punto flotante, y por default tiene habilitado un modo de operación llamado lazy stacking, esta funcionalidad reserva un 
+espacio de memoria para utilizar como stack donde guardara el contenido de los registros utilizados para punto flotante, S0 – S15. Entonces, si se utiliza operaciones 
+con punto flotante el procesador guardara ahí el contenido de esos registros, de lo contrario solo quedara reservado el espacio. Este modo de funcionamiento reduce el 
+tiempo de respuesta en el llamado a una interrupción, ya que almacena solo los registros necesarios.
 
 17. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
 
