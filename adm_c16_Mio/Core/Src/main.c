@@ -186,7 +186,10 @@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitu
 
 void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud)
 {
-
+	for(uint32_t i = 0; i < longitud; i++)
+	{
+		vectorOut[i] = vectorIn[i] >> 16;
+	}
 }
 
 /**********************************************************************************************************/
@@ -298,11 +301,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 
-  uint32_t longitudVectorIn = 4, N = 1;
+  uint32_t longitudVectorIn = 1, N = 1;
 
-  int32_t vectorOut[longitudVectorIn];
+  int16_t vectorOut[longitudVectorIn];
 
-  int32_t vectorIn[]={1,2,3,4};//, vectorOut[longitudVectorIn];
+  int32_t vectorIn[]={0x7FFFFFFF};//, vectorOut[longitudVectorIn];
   uint32_t max;
 
 
@@ -311,7 +314,7 @@ int main(void)
 
 	  //zerosint32(vectorOut, longitudVectorIn);
 
-	  downsampleM(vectorIn, vectorOut,  longitudVectorIn, N);
+	  pack32to16(vectorIn, vectorOut, longitudVectorIn);
 	  vectorOut;
 	  /* Lleno de ceros */
 /*
