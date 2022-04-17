@@ -319,23 +319,42 @@
 @
 @ Parametros recibidos:
 @   r0: Primer operando - puntero al vector de entrada de int32_t
-@   r1: Segundo operando - puntero al vector de salida de int32_t
+@   r1: Segundo operando - longitud del vector de entrada
 @
 @ Valor de retorno:
 @   void
-@
-@ R4:
-@ R5:
-@ R6:
-@
 
 .thumb_func
     asm_invertir:
 
 		/* Guardo registros en la pila */
-		PUSH {R4 - R6}
+		PUSH {R4 - R5}
+		/* Calculo la posicion del ultimo elemento del vector */
+		MOV R4, R1
+		SUBS R4, #1 // De N elementos el final sera N - 1
+		MOV R3,#2
+		MUL R4, R3  // Al ser uint16_t multiplico x 2
+		/* Apunto el R2 al final del vector */
+		MOV R2, R0
+		ADD R2, R4
+		/* Le resto 2 a la cantidad de combinaciones a iterar
+		 * Para 3 elementos: 1 iteracion
+		 * Para 4 elementos: 2 iteraciones
+		 * Para N elementos: N - 2 iteraciones
+		 */
+		SUBS R1, #2
 
-		POP {R4 - R6}
+	.asm_invertir_loop1:
+		LDRH R4, [R2]	// Copio el valor del extremo derecho del vector
+		LDRH R5, [R0]	// Copio el valor del extremo izquierdo del vector
+		/* Intercambio valores entre las puntas */
+		STRH R5, [R2], -2
+		STRH R4, [R0], 2
+
+		SUBS R1, #1	// Cuando llega a cero cambia el flag a 1
+		BNE .asm_invertir_loop1
+
+		POP {R4 - R5}
 
  		bx lr
 

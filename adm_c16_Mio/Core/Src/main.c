@@ -231,20 +231,20 @@ int main(void)
 
 
   uint32_t longitudVectorIn = 4, N = 1;
-  //uint16_t vectorIn[]={1,2,3,4,5,6,7,8,9,10,11,12}, escalar16 = 2;
+  uint16_t vectorIn[]={1,2,3,4}, escalar16 = 2;
   //uint16_t vectorOut[longitudVectorIn];
 
-  int32_t vectorIn[]={1,2,3,4}, vectorOut[longitudVectorIn];
+  //int32_t vectorIn[]={1,2,3,4}, vectorOut[longitudVectorIn];
   uint32_t max;
 
 
   while (1)
   {
 
-	  zerosint32(vectorOut, longitudVectorIn);
+	  //zerosint32(vectorOut, longitudVectorIn);
 
-	  asm_downsampleM(vectorIn,vectorOut, longitudVectorIn, N);
-	  max;
+	  asm_invertir(vectorIn, longitudVectorIn);
+	  vectorIn;
 	  /* Lleno de ceros */
 /*
 	  tiempoInicial = HAL_GetTick();
