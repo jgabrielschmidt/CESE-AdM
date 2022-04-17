@@ -12,6 +12,9 @@
 .global asm_filtroVentana10
 
 .global asm_max
+.global asm_downsampleM
+.global asm_invertir
+
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   void asm_svc (void)
@@ -260,3 +263,79 @@
 		pop {R4}
 
         bx lr
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
+@
+@ Parametros recibidos:
+@   r0: Primer operando - puntero al vector de entrada de int32_t
+@   r1: Segundo operando - puntero al vector de salida de int32_t
+@ 	R2: Tercer operando - longitud de los vectores uint32_t
+@ 	R3: Cuarto operando - N muestra a quitar uint32_t
+@
+@ Valor de retorno:
+@   void
+@
+@ R4: Utilizado para comparar con la muestra N a sacar (Contador hasta N)
+@ R5: Utilizado para guardar en el vectorOut el item del vectorIn
+@ R6: Utilizado para contar la cantidad de items del vector (Contador hasta R2)
+@
+
+.thumb_func
+    asm_downsampleM:
+
+		/* Guardo registros en la pila */
+		PUSH {R4 - R6}
+		/* Inicializo el registro R4 */
+		MOV R4, #0
+		MOV R6, #0
+		/* Comparo R4 con el numero de item a sacar */
+	.asm_downsampleM_loop1:
+		CMP R4, R3
+		BEQ .asm_downsampleM_Nocopiar
+		/* Si no toca sacar el item, lo guardo en vectorOut */
+		LDR R5, [R0], #4
+		STR R5,[R1], #4
+		ADD R4, #1
+		B .asm_downsampleM_contador
+		/* Si toca sacar el item, avanzo en el vectorIn y no lo copio al vectorOut, reseteo R4 para contar nuevamente hasta N */
+	.asm_downsampleM_Nocopiar:
+		LDR R5, [R0], #4
+		MOV R4, #0
+		/* avanzo en el vectorIn - Su contador */
+	.asm_downsampleM_contador:
+		ADD R6, #1
+		CMP R2, R6
+		BNE .asm_downsampleM_loop1
+
+		POP {R4 - R6}
+
+ 		bx lr
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void asm_invertir (uint16_t * vector, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: Primer operando - puntero al vector de entrada de int32_t
+@   r1: Segundo operando - puntero al vector de salida de int32_t
+@
+@ Valor de retorno:
+@   void
+@
+@ R4:
+@ R5:
+@ R6:
+@
+
+.thumb_func
+    asm_invertir:
+
+		/* Guardo registros en la pila */
+		PUSH {R4 - R6}
+
+		POP {R4 - R6}
+
+ 		bx lr
+

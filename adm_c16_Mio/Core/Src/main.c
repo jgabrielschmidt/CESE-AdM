@@ -122,12 +122,23 @@ static void PrivilegiosSVC (void)
     // Fin del ejemplo de SVC
 }
 
+
+
+/**********************************************************************************************************/
+/**********************************************************************************************************/
+/**********************************************************************************************************/
+
+
+/* Ejercicio 1 C */
+
 void zeros(uint32_t *vector, uint32_t longitud){
 
 	for(uint32_t i = 0; i < longitud; i++)
 		vector[i] = 0;
 }
 
+/**********************************************************************************************************/
+/* Ejercicio 2 C */
 
 void productoEscalar32(uint32_t *vectorIn, uint32_t *vectorOut, uint32_t longitud, uint32_t escalar){
 
@@ -135,11 +146,17 @@ void productoEscalar32(uint32_t *vectorIn, uint32_t *vectorOut, uint32_t longitu
 		vectorOut[i] = vectorIn[i] * escalar;
 }
 
+/**********************************************************************************************************/
+/* Ejercicio 3 C */
+
 void productoEscalar16 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar){
 
 	for(uint16_t i = 0; i < longitud; i++)
 		vectorOut[i] = vectorIn[i] * escalar;
 }
+
+/**********************************************************************************************************/
+/* Ejercicio 4 C */
 
 void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar){
 
@@ -148,6 +165,28 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
 			vectorOut[i] = vectorOut[i] & 0x0FFF;
 	}
 }
+
+/**********************************************************************************************************/
+/* Ejercicio 5 C */
+
+void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn){
+
+	for(uint32_t i = 0; (i + 10) <= longitudVectorIn; i++)
+	{
+		for(uint8_t j = i; j < (10 + i); j++)
+		{
+			vectorOut[i] += vectorIn[j];
+		}
+		vectorOut[i] /= 10;
+	}
+}
+
+void zerosint32(int32_t *vector, uint32_t longitud){
+
+	for(uint32_t i = 0; i < longitud; i++)
+		vector[i] = 0;
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -190,17 +229,22 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-/*
-  uint32_t tiempoInicial, tiempoFinalFuncionC, tiempoFinalFuncionASM,
-  	  	   longitud = 4,
-		   VectorIn32[]={1,2,3,4}, VectorOut32[longitud],
-		   escalar32 = 2;
-*/
-  uint32_t longitud = 4;
-  uint16_t VectorIn16[]={500,1000,2047,2050}, VectorOut16[longitud], escalar16 = 2;
+
+  uint32_t longitudVectorIn = 4, N = 1;
+  //uint16_t vectorIn[]={1,2,3,4,5,6,7,8,9,10,11,12}, escalar16 = 2;
+  //uint16_t vectorOut[longitudVectorIn];
+
+  int32_t vectorIn[]={1,2,3,4}, vectorOut[longitudVectorIn];
+  uint32_t max;
+
 
   while (1)
   {
+
+	  zerosint32(vectorOut, longitudVectorIn);
+
+	  asm_downsampleM(vectorIn,vectorOut, longitudVectorIn, N);
+	  max;
 	  /* Lleno de ceros */
 /*
 	  tiempoInicial = HAL_GetTick();
@@ -244,9 +288,10 @@ int main(void)
 	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
 
 	  tiempoInicial = HAL_GetTick();
-*/	  asm_productoEscalar12(VectorIn16, VectorOut16, longitud, escalar16);
+	  asm_productoEscalar12(VectorIn16, VectorOut16, longitud, escalar16);
 	  VectorOut16;
-/*	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
+*/
+	  /*	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
 */
 	  /* USER CODE END WHILE */
 
