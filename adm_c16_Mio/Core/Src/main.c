@@ -181,6 +181,53 @@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitu
 	}
 }
 
+/**********************************************************************************************************/
+/* Ejercicio 6 C */
+
+void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud)
+{
+
+}
+
+/**********************************************************************************************************/
+/* Ejercicio 7 C */
+
+int32_t max(int32_t * vectorIn, uint32_t longitud)
+{
+	uint32_t posicionMax = 0;
+	int32_t max = vectorIn[posicionMax];
+
+	for(uint32_t i = 1; i < longitud; i++)
+	{
+		if( vectorIn[i] > max )
+		{
+			max = vectorIn[i];
+			posicionMax = i;
+		}
+	}
+	return posicionMax;
+}
+
+/**********************************************************************************************************/
+/* Ejercicio 8 C */
+
+void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N)
+{
+
+}
+
+/**********************************************************************************************************/
+/* Ejercicio 9 C */
+void invertir(uint16_t * vector, uint32_t longitud)
+{
+
+}
+
+
+
+
+
+
 void zerosint32(int32_t *vector, uint32_t longitud){
 
 	for(uint32_t i = 0; i < longitud; i++)
