@@ -218,9 +218,17 @@ void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uin
 
 /**********************************************************************************************************/
 /* Ejercicio 9 C */
+
 void invertir(uint16_t * vector, uint32_t longitud)
 {
+	uint16_t temp;
 
+	for(uint32_t i = 0; i < longitud - 2; i++)
+	{
+		temp = vector[longitud - 1 - i];
+		vector[longitud - 1 - i] = vector[i] ;
+		vector[i] = temp;
+	}
 }
 
 
