@@ -230,11 +230,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 
-  uint32_t longitudVectorIn = 4, N = 1;
-  uint16_t vectorIn[]={1,2,3,4}, escalar16 = 2;
-  //uint16_t vectorOut[longitudVectorIn];
+  uint32_t longitudVectorIn = 1, N = 1;
 
-  //int32_t vectorIn[]={1,2,3,4}, vectorOut[longitudVectorIn];
+  int16_t vectorOut[longitudVectorIn];
+
+  int32_t vectorIn[]={0x7FFFFFFF};//, vectorOut[longitudVectorIn];
   uint32_t max;
 
 
@@ -243,8 +243,8 @@ int main(void)
 
 	  //zerosint32(vectorOut, longitudVectorIn);
 
-	  asm_invertir(vectorIn, longitudVectorIn);
-	  vectorIn;
+	  pack32to16 (vectorIn, vectorOut, longitudVectorIn);
+	  vectorOut;
 	  /* Lleno de ceros */
 /*
 	  tiempoInicial = HAL_GetTick();

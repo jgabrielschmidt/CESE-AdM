@@ -10,7 +10,7 @@
 .global asm_productoEscalar16
 .global asm_productoEscalar12
 .global asm_filtroVentana10
-
+.global pack32to16
 .global asm_max
 .global asm_downsampleM
 .global asm_invertir
@@ -355,6 +355,26 @@
 		BNE .asm_invertir_loop1
 
 		POP {R4 - R5}
+
+ 		bx lr
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: Primer operando - puntero al vector de entrada de int32_t
+@   r1: Segundo operando - puntero al vector de salida de int16_t
+@   r2: Tercer operando - longitud del vector de entrada
+@ Valor de retorno:
+@   void
+
+.thumb_func
+    pack32to16:
+
+		LDR R3, [R0], #4	// Cargo el valor de lo que apunta R0 en R3
+		LSR R3, R3, #16		// Lo desplazo 16 bit a la derecha
+		STR R3, [R1], #4	// Cargo el resultado en el vactor de salida
 
  		bx lr
 
