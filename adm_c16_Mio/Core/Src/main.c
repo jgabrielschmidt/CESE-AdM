@@ -213,7 +213,20 @@ int32_t max(int32_t * vectorIn, uint32_t longitud)
 
 void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N)
 {
+	uint32_t itemVectorOut = 0, temp = 0;
 
+	for(uint32_t i = 0; i < longitud; i++)
+	{
+		if(temp != N)
+		{
+			vectorOut[itemVectorOut] = vectorIn[i];
+			itemVectorOut++;
+			temp++;
+		}else{
+				vectorIn[i] = vectorIn[i];
+				temp = 0;
+			}
+	}
 }
 
 /**********************************************************************************************************/
@@ -285,11 +298,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
 
-  uint32_t longitudVectorIn = 1, N = 1;
+  uint32_t longitudVectorIn = 4, N = 1;
 
-  int16_t vectorOut[longitudVectorIn];
+  int32_t vectorOut[longitudVectorIn];
 
-  int32_t vectorIn[]={0x7FFFFFFF};//, vectorOut[longitudVectorIn];
+  int32_t vectorIn[]={1,2,3,4};//, vectorOut[longitudVectorIn];
   uint32_t max;
 
 
@@ -298,7 +311,7 @@ int main(void)
 
 	  //zerosint32(vectorOut, longitudVectorIn);
 
-	  pack32to16 (vectorIn, vectorOut, longitudVectorIn);
+	  downsampleM(vectorIn, vectorOut,  longitudVectorIn, N);
 	  vectorOut;
 	  /* Lleno de ceros */
 /*

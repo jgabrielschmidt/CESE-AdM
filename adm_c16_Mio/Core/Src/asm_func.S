@@ -10,7 +10,7 @@
 .global asm_productoEscalar16
 .global asm_productoEscalar12
 .global asm_filtroVentana10
-.global pack32to16
+.global asm_pack32to16
 .global asm_max
 .global asm_downsampleM
 .global asm_invertir
@@ -370,7 +370,7 @@
 @   void
 
 .thumb_func
-    pack32to16:
+    asm_pack32to16:
 
 		LDR R3, [R0], #4	// Cargo el valor de lo que apunta R0 en R3
 		LSR R3, R3, #16		// Lo desplazo 16 bit a la derecha
