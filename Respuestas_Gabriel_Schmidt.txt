@@ -88,6 +88,27 @@ las excepciones. Esto trae varios beneficios:
 -	El espacio reservado para la pila de cada tarea es el mínimo requerido.
 -	Facilita la creación de un SO para el CORTEX-M.
 
+
+6. Describa los diferentes modos de privilegio y operación del Cortex M, sus relaciones y como se conmuta de uno al otro. Describa un ejemplo en el que se pasa del 
+modo privilegiado a no privilegiado y nuevamente a privilegiado.
+
+Estados de operación:
+•	Debug: Es un modo posible si el debugger está conectado. En este modo el procesador es detenido por el debugger o algún breakpoint, y no realiza ninguna 
+	       instrucción.
+•	Thumb: Este modo es cuando el procesador está corriendo código, ejecutando instrucciones Thumb.
+
+Modos de operación:
+•	Modo Handler: Cuando el procesador está ejecutando una excepción, como una interrupción. En este modo siempre está en modo privilegiado.
+•	Modo Thread: Cuando el procesador está ejecutando código normalmente, pudiendo estar en modo privilegiado o no privilegiado.
+
+El modo privilegiado y no privilegiado sirve para poder separar distintos códigos en base a su criticidad. Si tengo un sistema operativo, es mejor tenerlo funcionando 
+en un área de memoria protegida a la que solo se puede acceder en modo privilegiado, y las demás tareas corriendo en modo no privilegiado. Por este motivo el procesador 
+puede cambiar de modo privilegiado a no privilegiado, pero no puede hacer lo contrario ya que se daría una falla. Si es necesario hacerlo, se debe cambiar por medio de 
+una interrupción. 
+
+Por default, los Cortex-M comienzan a operar en modo Thread privilegiado y en estado Thumb. 
+
+
 8. ¿Qué ventajas presenta el uso de instrucciones de ejecución condicional (IT)? Dé un Ejemplo
 
 La ventaja es que se pueden ejecutar hasta cuatro instrucciones basadas en la condición de ejecución. Ejemplo de una instrucción IF-THEN-ELSE-THEN-THEN:
@@ -251,6 +272,13 @@ ADDEQ  R0, R1 // si es igual le sumo el registro R1
 Actualiza el registro APSR (Application Program Status Register, such as Carry, Overflow, Zero and Negative flags).Ejemplo: 
 
 ADDS r0, 0x70 // [r0] = 0x70  Actualiza el flag si es que hubo overflow o no.
+
+3. ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un ejemplo con operaciones con datos de 8 bits.
+
+Es útil cuando se hacen procesamiento de datos, por ejemplo, si al realizar una operación aritmética el resultado es más grande que el número máximo capaz de representarse 
+según la cantidad de bits utilizada, habrá overflow, y el dato interpretado será erróneo. Explícitamente seria: Si en 8 bits tengo 0xFF y le sumo 0x01, el resultado será 
+0x00. Si utilizo la aritmética saturada el resultado será: 0xFF. Esto se interpreta como saturación.
+
 
 4. Describa brevemente la interfaz entre assembler y C ¿Cómo se reciben los argumentos de las funciones? ¿Cómo se devuelve el resultado? ¿Qué registros deben guardarse
  en la pila antes de ser modificados?
