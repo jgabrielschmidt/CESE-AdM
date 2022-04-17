@@ -109,6 +109,12 @@ una interrupción.
 Por default, los Cortex-M comienzan a operar en modo Thread privilegiado y en estado Thumb. 
 
 
+7. ¿Qué se entiende por modelo de registros ortogonal? Dé un ejemplo
+
+En un modelo de registros ortogonal una instrucción puede utilizar un registro como fuente o destino, a diferencia de otros modelos donde hay instrucciones que solo 
+pueden utilizar ciertos registros.
+
+
 8. ¿Qué ventajas presenta el uso de instrucciones de ejecución condicional (IT)? Dé un Ejemplo
 
 La ventaja es que se pueden ejecutar hasta cuatro instrucciones basadas en la condición de ejecución. Ejemplo de una instrucción IF-THEN-ELSE-THEN-THEN:
@@ -236,7 +242,8 @@ solo para ciertas aplicaciones.
 por las regiones definidas? 
 
 En los Cortex M3 y M4 soportan hasta 8 regiones programables. En caso de que un dato quiera ser guardado en una parte de la memoria protegida compartida por dos 
-regiones, este será guardado en la región con el número de identificación de división más alto. 
+regiones, este será guardado en la región con el número de identificación de división más alto. Si se intenta acceder a un área no definida, el acceso será bloqueado 
+y se disparara una excepción de falla.
 
 21. ¿Para qué se suele utilizar la excepción PendSV? ¿Cómo se relaciona su uso con el resto de las excepciones? Dé un ejemplo
 
