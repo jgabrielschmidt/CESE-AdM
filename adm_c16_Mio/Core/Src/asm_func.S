@@ -375,7 +375,7 @@
 	.asm_pack32to16_loop:
 		LDR R3, [R0], #4	// Cargo el valor de lo que apunta R0 en R3
 		LSR R3, R3, #16		// Lo desplazo 16 bit a la derecha
-		STR R3, [R1], #4	// Cargo el resultado en el vactor de salida
+		STR R3, [R1], #2	// Cargo el resultado en el vactor de salida
 
         subs R2, 1
 		bne .asm_pack32to16_loop
