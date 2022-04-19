@@ -187,9 +187,9 @@
 		push {R5-R6}
 		/* Inicializo los registros R6 R4 */
 		MOV R6, #0
-		MOV R4, #0
 	.asm_filtroVentana10_for1:
 		MOV R5, #10
+		MOV R4, #0
 	.asm_filtroVentana10_for2:
 		LDRH R3, [R0], #2
 		ADD R4, R3
@@ -209,7 +209,7 @@
 
 	/* Vuelvo el puntero R0 a R0[1], asi sumo a partir del R0[1] hasta  R0[11], y asi hasta la longitud del vector */
 	.asm_volver_r0:
-		SUB R0, #20
+		SUB R0, #18
 		B .asm_filtroVentana10_for1
 
 	.asm_fin:
@@ -337,12 +337,11 @@
 		/* Apunto el R2 al final del vector */
 		MOV R2, R0
 		ADD R2, R4
-		/* Le resto 2 a la cantidad de combinaciones a iterar
-		 * Para 3 elementos: 1 iteracion
-		 * Para 4 elementos: 2 iteraciones
-		 * Para N elementos: N - 2 iteraciones
+		/* Divido por dos a la longitud del vector,
+		 * Asi recorro hasta la mitad desde cada extremo
 		 */
-		SUBS R1, #2
+		MOV R4, #2
+		UDIV R1,R1,R4 // Hago la division
 
 	.asm_invertir_loop1:
 		LDRH R4, [R2]	// Copio el valor del extremo derecho del vector

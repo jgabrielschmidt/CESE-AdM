@@ -235,28 +235,21 @@ void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uin
 /**********************************************************************************************************/
 /* Ejercicio 9 C */
 
-void invertir(uint16_t * vector, uint32_t longitud)
+void invertir(uint16_t *vector, uint32_t longitud)
 {
 	uint16_t temp;
 
-	for(uint32_t i = 0; i < longitud - 2; i++)
+	for(uint32_t i = 0; i < longitud/2; i++)
 	{
 		temp = vector[longitud - 1 - i];
 		vector[longitud - 1 - i] = vector[i] ;
 		vector[i] = temp;
 	}
+	//vector[18] = temp;
 }
 
 
 
-
-
-
-void zerosint32(int32_t *vector, uint32_t longitud){
-
-	for(uint32_t i = 0; i < longitud; i++)
-		vector[i] = 0;
-}
 
 /* USER CODE END 0 */
 
@@ -294,76 +287,196 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
-  const uint32_t Resultado = asm_sum (5, 3);
+  //const uint32_t Resultado = asm_sum (5, 3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+  DWT->CTRL |= 1 << DWT_CTRL_CYCCNTENA_Pos;
 
-  uint32_t longitudVectorIn = 1, N = 1;
 
-  int16_t vectorOut[longitudVectorIn];
+/*
+  uint32_t longitud = 20, N,
+		  vectorIn[longitud],vectorOut[longitud];
 
-  int32_t vectorIn[]={0x7FFFFFFF};//, vectorOut[longitudVectorIn];
-  uint32_t max;
+  uint16_t escalar = 2,
+		  vectorIn16[longitud],vectorOut16[longitud];
+*/
 
+
+
+  //DWT->CYCCNT = 0;
+  //zeros(vector,longitud);	// c = 1246
+  //volatile uint32_t c = DWT->CYCCNT;
+
+  //DWT->CYCCNT = 0;
+  //asm_zeros(vector,longitud); // c = 217
+  //volatile uint32_t c = DWT->CYCCNT;
+
+
+
+/* longitud = 50;
+  for(uint32_t i = 0; i < longitud; i++){
+	  vectorIn[longitud] = i;
+  }
+
+  DWT->CYCCNT = 0;
+  productoEscalar32(vectorIn, vectorOut, longitud, escalar); // c = 1909
+  volatile uint32_t c = DWT->CYCCNT;
+  HAL_Delay(1);
+  DWT->CYCCNT = 0;
+  asm_productoEscalar32(vectorIn, vectorOut, longitud, escalar); // c = 466
+  c = DWT->CYCCNT;
+*/
+
+
+
+/* longitud = 50;
+  for(uint32_t i = 0; i < longitud; i++){
+	  vectorIn16[longitud] = i;
+  }
+  DWT->CYCCNT = 0;
+  productoEscalar16 (vectorIn16, vectorOut16, longitud, escalar); // c = 1955
+  volatile uint32_t c = DWT->CYCCNT;
+  HAL_Delay(1);
+  DWT->CYCCNT = 0;
+  asm_productoEscalar16(vectorIn16, vectorOut16, longitud, escalar); // c = 517
+  c = DWT->CYCCNT;
+*/
+
+
+
+/* longitud = 50;
+  for(uint32_t i = 0; i < longitud; i++){
+	  vectorIn16[longitud] = i;
+  }
+  DWT->CYCCNT = 0;
+  productoEscalar12(vectorIn16, vectorOut16, longitud, escalar); // c = 3182
+  volatile uint32_t c = DWT->CYCCNT;
+  HAL_Delay(1);
+  DWT->CYCCNT = 0;
+  asm_productoEscalar12(vectorIn16, vectorOut16, longitud, escalar); // c = 575
+  c = DWT->CYCCNT;
+  */
+
+  /*
+  longitud = 20;
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorIn16[i] = i;
+  }
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorOut16[i] = 0;
+  }
+  DWT->CYCCNT = 0;
+  filtroVentana10(vectorIn16, vectorOut16, longitud); // c = 5710
+  volatile uint32_t c = DWT->CYCCNT;
+  HAL_Delay(1);
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorOut16[i] = 0;
+  }
+  DWT->CYCCNT = 0;
+  asm_filtroVentana10(vectorIn16, vectorOut16, longitud); // c = 1000
+  c = DWT->CYCCNT;
+
+  */
+
+
+/*
+  longitud = 20;
+  int32_t vectorIn32i[longitud];
+  int16_t vectorOut16i[longitud];
+
+
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorIn32i[i] = 0XFFFFFFFF;
+  }
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorOut16i[i] = 0;
+  }
+  DWT->CYCCNT = 0;
+  pack32to16 ( vectorIn32i, vectorOut16i, longitud); // c = 797
+  volatile uint32_t c = DWT->CYCCNT;
+  HAL_Delay(1);
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorOut16i[i] = 0;
+  }
+  DWT->CYCCNT = 0;
+  asm_pack32to16 (vectorIn32i, vectorOut16i, longitud); // c = 226
+  c = DWT->CYCCNT;
+*/
+
+  /*
+  int32_t vectorIn32i[longitud];
+  longitud = 20;
+
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorIn32i[i] = i;
+  }
+  DWT->CYCCNT = 0;
+  max(vectorIn32i, longitud);  // c = 888
+  volatile uint32_t c = DWT->CYCCNT;
+  HAL_Delay(1);
+  DWT->CYCCNT = 0;
+  asm_max(vectorIn32i, longitud); // c = 263
+  c = DWT->CYCCNT;
+
+  */
+
+
+/*
+  longitud = 20;
+  int32_t vectorIn32i[longitud],
+  	  	  vectorOut32i[longitud];
+  N = 2;
+
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorIn32i[i] = i;
+	  vectorOut32i[i] = 0;
+  }
+  DWT->CYCCNT = 0;
+  downsampleM(vectorIn32i, vectorOut32i, longitud, N); // c = 1039
+  volatile uint32_t c = DWT->CYCCNT;
+  HAL_Delay(1);
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorOut32i[i] = 0;
+  }
+  DWT->CYCCNT = 0;
+  asm_downsampleM(vectorIn32i, vectorOut32i, longitud, N); // c = 288
+  c = DWT->CYCCNT;
+*/
+
+
+
+ /*
+  uint32_t longitud = 15;
+  uint16_t vectorIn16[longitud];
+
+
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorIn16[i] = i;
+  }
+  DWT->CYCCNT = 0;
+  invertir(vectorIn16, longitud);  // c = 493
+  volatile uint32_t c = DWT->CYCCNT;
+  HAL_Delay(1);
+  for(uint8_t i = 0; i < longitud; i++){
+	  vectorIn16[i] = i;
+  }
+  DWT->CYCCNT = 0;
+  asm_invertir(vectorIn16, longitud); // c = 96
+  c = DWT->CYCCNT;
+
+*/
+
+  HAL_Delay(1);
 
   while (1)
   {
 
-	  //zerosint32(vectorOut, longitudVectorIn);
-
-	  pack32to16(vectorIn, vectorOut, longitudVectorIn);
-	  vectorOut;
-	  /* Lleno de ceros */
-/*
-	  tiempoInicial = HAL_GetTick();
-	  zeros(VectorIn32, longitud);
-	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
-
-	  tiempoInicial = HAL_GetTick();
-	  asm_zeros(VectorIn32, longitud);
-	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
-
-*/
-
-	  /* Producto por un escalar 32 */
-
-/*
-	  tiempoInicial = HAL_GetTick();
-	  productoEscalar32(VectorIn32, VectorOut32, longitud, escalar);
-	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
-*/
-	  /*
-	  tiempoInicial = HAL_GetTick();
-	  asm_productoEscalar32(VectorIn32, VectorOut32, longitud, escalar);
-	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
-	  VectorOut32;
-	  */
-	  /* Producto por un escalar 16 */
-/*
-	  tiempoInicial = HAL_GetTick();
-	  productoEscalar16(VectorIn16, VectorOut16, longitud, escalar);
-	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
-*/
-//	  tiempoInicial = HAL_GetTick();
-//	  asm_productoEscalar16(VectorIn16, VectorOut16, longitud, escalar16);
-//	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
 
 
-	  /* Producto por un escalar 12 */
-/*
-	  tiempoInicial = HAL_GetTick();
-	  productoEscalar12(VectorIn16, VectorOut16, longitud, escalar);
-	  tiempoFinalFuncionC = HAL_GetTick() - tiempoInicial;
 
-	  tiempoInicial = HAL_GetTick();
-	  asm_productoEscalar12(VectorIn16, VectorOut16, longitud, escalar16);
-	  VectorOut16;
-*/
-	  /*	  tiempoFinalFuncionASM = HAL_GetTick() - tiempoInicial;
-*/
 	  /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
